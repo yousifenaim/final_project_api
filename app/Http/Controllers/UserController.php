@@ -38,7 +38,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'name' => 'required|max:15',
+            'name' => 'required|max:100',
             'email' => 'required|unique:users',
             'password' => 'required',
             'confirmpassword' => 'required|same:password',

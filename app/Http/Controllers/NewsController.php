@@ -21,6 +21,9 @@ class NewsController extends Controller
         return response()->json($news);
     }
 
+
+
+
     public function getNewsByTitle(Request $request)
     {
 
@@ -34,6 +37,10 @@ class NewsController extends Controller
         return response()->json($clasess);
     }
 
+
+
+
+
     public function getNewsByCategory(Request $request)
     {
         if ($request->category_name == null) {
@@ -42,6 +49,10 @@ class NewsController extends Controller
         $clasess = News::where('category_name', 'like', '%' . $request->category_name . '%')->paginate();
         return response()->json($clasess);
     }
+
+
+
+
 
     public function getNewsByDate(Request $request)
     {
@@ -93,8 +104,13 @@ class NewsController extends Controller
         $news = new News();
         $news->title = $request->title;
         $news->description = $request->description;
-        $news->user_id = $request->user_id;
+
         $news->category_id = $request->category_id;
+        $user = \App\Models\User::Find($request->user_id);
+        if (!$user) {
+            return response()->json(['message' => 'عذرا هذا اليوزر غير موجود '], 401);
+        }
+        $news->user_id = $request->user_id;
         $category = Category::Find($request->category_id);
         $news->category_name = $category->name;
 

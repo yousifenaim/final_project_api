@@ -51,8 +51,14 @@ class CategoryController extends Controller
             return response()->json(compact('msg', 'data'), 422);
         }
 
+
+
         $category = new Category();
         $category->name = $request->name;
+        $user = \App\Models\User::Find($request->user_id);
+        if (!$user) {
+            return response()->json(['message' => 'عذرا هذا اليوزر غير موجود '], 401);
+        }
         $category->user_id = $request->user_id;
         $category->save();
         return response()->json(['msg' => "Add Success"]);
@@ -100,6 +106,8 @@ class CategoryController extends Controller
             $data = $validated->errors();
             return response()->json(compact('msg', 'data'), 422);
         }
+
+
         //dd($request);
 
         $category = Category::Find($id);
