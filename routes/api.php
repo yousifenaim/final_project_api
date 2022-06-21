@@ -38,11 +38,11 @@ Route::group(['middleware'=>'auth:api'], function(){
     Route::post('/addNews', [\App\Http\Controllers\NewsController::class, 'store']);
     Route::post('/updateNew{id}', [\App\Http\Controllers\NewsController::class, 'update']);
     Route::post('/deleteNews{id}', [\App\Http\Controllers\NewsController::class, 'destroy']);
+
 });
 
 //User
 Route::post('/addUser', [\App\Http\Controllers\UserController::class, 'store']);
-
 
 //Category
 
@@ -50,7 +50,7 @@ Route::get('/getCategories', [\App\Http\Controllers\CategoryController::class, '
 
 //News
 
-Route::get('/ShowNews', [\App\Http\Controllers\NewsController::class, 'index']);
+Route::get('/getNews', [\App\Http\Controllers\NewsController::class, 'index']);
 Route::get('/getNewsByTitle', [\App\Http\Controllers\NewsController::class, 'getNewsByTitle']);
 Route::get('/getNewsByCategory', [\App\Http\Controllers\NewsController::class, 'getNewsByCategory']);
 Route::get('/getNewsByDate', [\App\Http\Controllers\NewsController::class, 'getNewsByDate']);
