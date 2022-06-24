@@ -64,6 +64,50 @@ class NewsController extends Controller
     }
 
 
+    public function getNewsSearch(Request $request)
+    {
+        if ($request->created_at == null &&$request->category_name == null && $request->title == null) {
+            return response()->json('قم باضافة بيانات', 422);
+        }
+
+        if ($request->created_at != null &&$request->category_name != null && $request->title != null) {
+            $clasess = News::where('created_at', 'like', '%' . $request->created_at . '%')->where('category_name', $request->category_name)->where('title', 'like', '%' . $request->title . '%')->paginate();
+            return response()->json($clasess);
+        }
+        elseif ($request->created_at != null && $request->category_name != null ) {
+
+            $clasess = News::where('created_at', 'like', '%' . $request->created_at . '%')->where('category_name', $request->category_name)->paginate();
+            return response()->json($clasess);
+        }
+        elseif ($request->created_at != null  && $request->title != null) {
+            $clasess = News::where('created_at', 'like', '%' . $request->created_at . '%')->where('title', 'like', '%' . $request->title . '%')->paginate();
+            return response()->json($clasess);
+        }
+
+        elseif ($request->category_name != null  && $request->title != null) {
+            $clasess = News::where('category_name', $request->category_name)->where('title', 'like', '%' . $request->title . '%')->paginate();
+            return response()->json($clasess);
+        }
+
+        elseif ($request->category_name != null  && $request->title == null&&$request->created_at == null) {
+            $clasess = News::where('category_name', $request->category_name)->paginate();
+            return response()->json($clasess);
+        }
+
+        elseif ($request->category_name == null  && $request->title != null&&$request->created_at == null) {
+            $clasess = News::where('title', 'like', '%' . $request->title . '%')->paginate();
+            return response()->json($clasess);
+        }
+
+        elseif ($request->category_name == null  && $request->title == null&&$request->created_at != null) {
+            $clasess = News::where('created_at', 'like', '%' . $request->created_at . '%')->paginate();
+            return response()->json($clasess);
+        }
+
+
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -111,6 +155,8 @@ class NewsController extends Controller
             return response()->json(['message' => 'عذرا هذا اليوزر غير موجود '], 401);
         }
         $news->user_id = $request->user_id;
+
+
         $category = Category::Find($request->category_id);
         $news->category_name = $category->name;
 

@@ -54,6 +54,7 @@ Route::get('/getNews', [\App\Http\Controllers\NewsController::class, 'index']);
 Route::get('/getNewsByTitle', [\App\Http\Controllers\NewsController::class, 'getNewsByTitle']);
 Route::get('/getNewsByCategory', [\App\Http\Controllers\NewsController::class, 'getNewsByCategory']);
 Route::get('/getNewsByDate', [\App\Http\Controllers\NewsController::class, 'getNewsByDate']);
+Route::get('/getNewsSearch', [\App\Http\Controllers\NewsController::class, 'getNewsSearch']);
 
 
 
