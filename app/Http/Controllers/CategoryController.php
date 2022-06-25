@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\News;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'name' => 'required|max:20',
+            'name' => 'required|unique:categories',
             'user_id' => 'required|integer',
         ], [], [
             'name' => 'الاسم',
@@ -126,6 +127,7 @@ class CategoryController extends Controller
     {
         if (Category::Find($id)) {
             $category = Category::destroy($id);
+            $newss = News::where('category_id', $id)->delete();
             return response()->json(['msg' => "تم الحذف بنجاح"]);
         } else
             return response()->json(['msg' => "تأكد من المعرف"]);

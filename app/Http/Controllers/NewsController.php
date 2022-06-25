@@ -145,6 +145,12 @@ class NewsController extends Controller
             $data = $validated->errors();
             return response()->json(compact('msg', 'data'), 422);
         }
+
+        $category = Category::Find($request->category_id);
+        if (!$category) {
+            return response()->json(['message' => 'هذا التصنيف غيى موجود'], 401);
+        }
+        
         $news = new News();
         $news->title = $request->title;
         $news->description = $request->description;
@@ -157,7 +163,7 @@ class NewsController extends Controller
         $news->user_id = $request->user_id;
 
 
-        $category = Category::Find($request->category_id);
+
         $news->category_name = $category->name;
 
         if ($request->hasFile('image')) {
